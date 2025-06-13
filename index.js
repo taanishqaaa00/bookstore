@@ -1,8 +1,10 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
-import Book from './models/bookModel.js'; // Import the Book model
+import Book from './models/models.js'; // Import the Book model
 import dotenv from 'dotenv';
+import bookRoute from './route/bookRoute.js';
+
 dotenv.config(); // Load environment variables from .env file
 
 const app = express();    //CREATES HTTP SERVER
@@ -18,20 +20,23 @@ app.use(express.json());   //middleware
 
 
 //routes
+app.use('/book', bookRoute);
 app.get('/', (req, res) => {
   res.send("first backend app");
 });
-app.post('/books', async (req, res) => {
-    const { title, author, genre, publishedDate } = req.body;
-    const newbook = new Book({title, author, genre, publishedDate});
-    try {
-        await newbook.save();
-        res.status(201).json({message: "Book added successfully"});
-    } 
-    catch (error) {
-        res.status(400).json({message: "Error adding book", error: error.message});
-    }
-})
+
+//app.post('/books', async (req, res) => {
+  //  const { title, author, genre, publishedDate } = req.body;
+    //const newbook = new Book({title, author, genre, publishedDate});
+    //try {
+      //  await newbook.save();
+        //res.status(201).json({message: "Book added successfully"});
+   // } 
+    //catch (error) {
+      //  res.status(400).json({message: "Error adding book", error: error.message});
+    //}
+// })
+
 
 
 
